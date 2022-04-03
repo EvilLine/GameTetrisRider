@@ -3,6 +3,13 @@
 bool game = true;
 int? cmd = null;
 Console.CursorVisible = false;
+for(int i = 0; i < 26; i++)
+{
+    Console.SetCursorPosition(0, i);
+    Console.WriteLine("|");
+    Console.SetCursorPosition(26, i);
+    Console.WriteLine("|");
+}
 
 //Создаем машинку пользователя
 var user = new Car(new Position() { x = 10, y = 10 });
@@ -10,7 +17,9 @@ var npclib = new Car[5];
 
 //Добавляем хранилище объектов
 var cars = new List<Car>();
+//Добавляем сюда нашу машинку
 cars.Add(user);
+//Добавляем остальные объекты
 for(int i = 0; i < 5; i++)
 {
     npclib[i] = new Car(new Position() { x = new Random().Next(0, 25), y = 0 });
