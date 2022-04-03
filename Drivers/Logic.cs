@@ -16,67 +16,18 @@ namespace Drivers
         public Car[] npclib { get; set; }//Модели НПС
         public Drow Drow { get; set; }//Класс рисования
         public List<Car> cars { get; set; }//Общие объекты 
-        public Logic()
-        {
-
-        }
+        
         public void StartGame()
         {
             Task.Run(() =>
             {
                 while (game)
                 {
-                    switch (cmd)
-                    {
-                        case 0:
-                            Drow.DrowDelete(user);
-                            user.y--;
-                            break;
-                        case 1:
-                            Drow.DrowDelete(user);
-                            user.y++;
-                            break;
-                        case 2:
-                            Drow.DrowDelete(user);
-                            user.x--;
-                            break;
-                        case 3:
-                            Drow.DrowDelete(user);
-                            user.x++;
-                            break;
-                        default:
-                            break;
-                    }
-                    cmd = null;
+                    CmdIni();
                     foreach (var npc in npclib)
                     {
-                        if (TicNpc > 0)
-                        {
-                            TicNpc = TicNpc - new Random().Next(10, 100);
-                        }
-                        else
-                        {
-                            if (npc.y < 20)
-                            {
-                                Drow.DrowDelete(npc);
-                                npc.y++;
-                            }
-                            else
-                            {
-                                Drow.DrowDelete(npc);
-                                npc.x = new Random().Next(3, 25);
-                                npc.y = 0;
-                            }
-                            TicNpc = 1000;
-                            scorv.ScoreValue++;
-                        }
-                        if (!user.Avaria(npc))
-                        {
-                            Console.Clear();
-                            Console.WriteLine("GameOver");
-                            game = false;
-                            break;
-                        }
+                        NpcFunction(npc);
+                        CrashCar(npc);
                     }
                     Console.SetCursorPosition(30, 20);
                     Console.Write(scorv.Display);
@@ -84,6 +35,63 @@ namespace Drivers
                     Thread.Sleep(10);
                 }
             });
+        }
+        private void NpcFunction(Car npc)
+        {
+            if (TicNpc > 0)
+            {
+                TicNpc -= new Random().Next(10, 100);
+            }
+            else
+            {
+                if (npc.y < 20)
+                {
+                    Drow.DrowDelete(npc);
+                    npc.y++;
+                }
+                else
+                {
+                    Drow.DrowDelete(npc);
+                    npc.x = new Random().Next(3, 25);
+                    npc.y = 0;
+                }
+                TicNpc = 1000;
+                scorv.ScoreValue++;
+            }
+        }
+        private void CrashCar(Car npc)
+        {
+            if (!user.Avaria(npc))
+            {
+                Console.Clear();
+                Console.WriteLine("GameOver");
+                game = false;                
+            }
+        }
+        private void CmdIni()
+        {
+            switch (cmd)
+            {
+                case 0:
+                    Drow.DrowDelete(user);
+                    user.y--;
+                    break;
+                case 1:
+                    Drow.DrowDelete(user);
+                    user.y++;
+                    break;
+                case 2:
+                    Drow.DrowDelete(user);
+                    user.x--;
+                    break;
+                case 3:
+                    Drow.DrowDelete(user);
+                    user.x++;
+                    break;
+                default:
+                    break;
+            }
+            cmd = null;
         }
     }
 }
