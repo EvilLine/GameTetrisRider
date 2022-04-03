@@ -27,14 +27,16 @@ namespace Drivers
         public ICollection<Position> GetModel => modelIndex;
         public bool Avaria(Car npc)
         {
-            for(int i = 0; i < npc.modelIndex.Count; i++)
+            foreach(var mod in modelIndex)
             {
-                if(
-                    (modelIndex[i].x + this.x) == (npc.modelIndex[i].x + npc.x) && 
-                    (modelIndex[i].y + this.y) == (npc.modelIndex[i].y + npc.y)
-                    )
+                for (int i = 0; i < npc.modelIndex.Count; i++)
                 {
-                    return false;
+                    var npcX = npc.modelIndex[i].x + npc.x;
+                    var npcY = npc.modelIndex[i].y + npc.y;                   
+                    if (npcX == (mod.x + this.x) && npcY == (mod.y + this.y))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

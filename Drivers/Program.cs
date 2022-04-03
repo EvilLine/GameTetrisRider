@@ -18,7 +18,8 @@ for(int i = 0; i < 5; i++)
 }
 
 
-
+//Система очков
+var scorv = new Score();
 
 //Включаем службу рисования
 var Drow = new Drow(cars);
@@ -70,28 +71,20 @@ Task.Run(() =>
                     npc.y = 0;
                 }
                 TicNpc = 1000;
+                scorv.ScoreValue++;
             }
             if(!user.Avaria(npc))
             {
+                Console.Clear();
                 Console.WriteLine("GameOver");
                 game = false;
                 break;
             }
         }
-       
+        Console.SetCursorPosition(30, 20);
+        Console.Write(scorv.Display);
         Drow.DrowImage();
         Thread.Sleep(10);       
-    }
-});
-/// <summary>
-/// Служба других машинок как объектов
-/// </summary>
-Task.Run(() =>
-{
-    while(true)
-    {
-        
-        Thread.Sleep(1000);
     }
 });
 /// <summary>
